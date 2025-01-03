@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta de Reyes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-image: url('https://img.freepik.com/fotos-premium/bosque-magico-encantado-luciernagas-o-relampagos_691560-2303.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 0, 0.3);
+            width: 10px;
+            height: 10px;
+            animation: move var(--random-duration) infinite ease-in-out, fade-in-out var(--random-fade-duration) infinite;
+        }
+        @keyframes move {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(calc(30vw * var(--random-x)), calc(30vh * var(--random-y))); }
+            50% { transform: translate(calc(-30vw * var(--random-x)), calc(-30vh * var(--random-y))); }
+            75% { transform: translate(calc(20vw * var(--random-x)), calc(20vh * var(--random-y))); }
+            100% { transform: translate(0, 0); }
+        }
+        @keyframes fade-in-out {
+            0%, 10% { opacity: 0; }
+            30%, 70% { opacity: 1; }
+            90%, 100% { opacity: 0; }
+        }
+        .falling-star {
+            position: absolute;
+            width: 3px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            animation: fall var(--random-duration) linear infinite;
+        }
+        @keyframes fall {
+            0% { top: -10px; left: calc(100% * var(--random-x)); opacity: 1; }
+            100% { top: 100vh; left: calc(100% * var(--random-x)); opacity: 0; }
+        }
+        .star {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 1) 0%, 
+                rgba(255, 223, 100, 0.9) 40%, 
+                rgba(255, 223, 100, 0.1) 70%, 
+                rgba(255, 223, 100, 0) 100%);
+            box-shadow: 0 0 15px 5px rgba(255, 223, 100, 0.8);
+            animation: star-twinkle 2s infinite ease-in-out;
+            cursor: pointer;
+        }
+        .star.center {
+            width: 90px;
+            height: 90px;
+        }
+        .star.extra-small {
+            width: 10px;
+            height: 10px;
+        }
+        @keyframes star-twinkle {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: none;
+            z-index: 1000;
+        }
+        .popup-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            height: 60%;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        .popup-content img {
+            position: absolute;
+            width: 150px;
+            opacity: 0.15;
+            animation: fade-move 8s infinite ease-in-out;
+        }
+        .popup-content img:nth-child(1) { animation-delay: 0s; }
+        .popup-content img:nth-child(2) { animation-delay: 1.5s; }
+        .popup-content img:nth-child(3) { animation-delay: 3s; }
+        @keyframes fade-move {
+            0%, 10% { opacity: 0; transform: translate(0, 0); }
+            30%, 70% { opacity: 0.15; transform: translate(calc(50vw * var(--random-x)), calc(50vh * var(--random-y))); }
+            90%, 100% { opacity: 0; transform: translate(0, 0); }
+        }
+        .popup .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="orbs-container"></div>
+    <div id="falling-stars-container"></div>
+
+    <div class="star" style="top: 27%; left: 30%;" onclick="showPopup(1)">★</div>
+    <div class="star center" style="top: 20%; left: 50%;" onclick="showPopup(2)">★</div>
+    <div class="star" style="top: 27%; left: 70%;" onclick="showPopup(3)">★</div>
+    <div class="star extra-small" style="top: 85%; left: 50%;" onclick="showPopup(4)">★</div>
+
+    <div id="popup1" class="popup">
+        <div class="popup-content">
+            <button class="close" onclick="closePopup(1)">x</button>
+            <p>Dinero (tres monedas y un billete que danzan como sueños de abundancia) 💰💵</p>
+            <p>Dinero</p>
+            <img src="https://static.vecteezy.com/system/resources/previews/028/228/727/non_2x/cash-money-with-gold-coins-cartoon-illustration-financial-concept-flat-icon-outline-vector.jpg" style="--random-x: 0.5; --random-y: 0.2;">
+            <img src="http://runrun.es/wp-content/uploads/2015/04/dolares.jpg" style="--random-x: -0.3; --random-y: 0.4;">
+            <img src="https://historiando.org/wp-content/uploads/2018/11/Dinero-1024x588.jpeg" style="--random-x: 0.1; --random-y: -0.2;">
+        </div>
+    </div>
+    <div id="popup2" class="popup">
+        <div class="popup-content">
+            <button class="close" onclick="closePopup(2)">x</button>
+            <p>Mini aire acondicionado (copos de nieve que acarician el alma en pleno verano) ❄️</p>
+            <p>Mini aire acondicionado</p>
+            <img src="https://png.pngtree.com/thumb_back/fw800/background/20231211/pngtree-cold-winter-snow-landscape-with-sky-bokeh-background-for-a-traditional-image_15499701.jpg" style="--random-x: -0.5; --random-y: 0.6;">
+            <img src="https://dagasistemas.com/wp-content/uploads/2020/12/instalacion.jpg" style="--random-x: 0.3; --random-y: -0.4;">
+            <img src="https://static.vecteezy.com/system/resources/previews/025/366/180/original/cold-icon-winter-illustration-sign-freezing-symbol-thermometer-logo-vector.jpg" style="--random-x: -0.2; --random-y: 0.2;">
+        </div>
+    </div>
+    <div id="popup3" class="popup">
+        <div class="popup-content">
+            <button class="close" onclick="closePopup(3)">x</button>
+            <p>Silla gamer (un trono digno de conquistas épicas) 🎮🪑</p>
+            <p>Silla gamer</p>
+            <img src="https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/mg/gm/3pp/asr/10a5e343-9ebd-4afb-9298-822f4c3ff03a.d5f624c778c381e49f776013064e8772.jpeg" style="--random-x: 0.4; --random-y: -0.5;">
+            <img src="https://www.hardmaniacos.com/wp-content/uploads/2019/05/mejores-sillas-gamer.jpg" style="--random-x: -0.6; --random-y: 0.3;">
+            <img src="https://mlstaticquic-a.akamaihd.net/silla-gamer-D_NQ_NP_876556-MLU31989485110_082019-F.jpg" style="--random-x: 0.2; --random-y: 0.1;">
+        </div>
+    </div>
+    <div id="popup4" class="popup">
+        <div class="popup-content">
+            <button class="close" onclick="closePopup(4)">x</button>
+            <p>Opciones extra: cosas que añaden magia</p>
+            <p>1.- Triángulos LED</p>
+            <p>2.- Puff</p>
+            <img src="https://3.bp.blogspot.com/-rpWD4ydYYV0/XqxBTfYx-SI/AAAAAAABNwc/jMt8Kl1OHeUlZkxY43V-8T9BgXmnQsgUQCLcBGAsYHQ/s640/puff-gigante-1.jpg" style="--random-x: -0.4; --random-y: 0.3;">
+            <img src="https://image.made-in-china.com/155f0j00NbugJkcDhRzp/APP-Music-Synchronized-Control-DIY-Intelligent-Magic-Color-Board-Triangle-Smart-RGBW-RGB-LED-Smart-Light-Panels.jpg" style="--random-x: 0.3; --random-y: -0.5;">
+        </div>
+    </div>
+
+    <script>
+        function createOrbs() {
+            for (let i = 0; i < 50; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'orb';
+                orb.style.setProperty('--random-x', Math.random());
+                orb.style.setProperty('--random-y', Math.random());
+                orb.style.setProperty('--random-duration', (Math.random() * 20 + 15) + 's');
+                orb.style.setProperty('--random-fade-duration', (Math.random() * 20 + 15) + 's');
+                orb.style.top = Math.random() * 100 + 'vh';
+                orb.style.left = Math.random() * 100 + 'vw';
+                document.getElementById('orbs-container').appendChild(orb);
+            }
+        }
+        function createFallingStars() {
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'falling-star';
+                star.style.setProperty('--random-x', Math.random());
+                star.style.setProperty('--random-duration', (Math.random() * 2 + 2) + 's');
+                document.getElementById('falling-stars-container').appendChild(star);
+            }
+        }
+        function showPopup(id) {
+            document.getElementById('popup' + id).style.display = 'block';
+        }
+        function closePopup(id) {
+            document.getElementById('popup' + id).style.display = 'none';
+        }
+
+        createOrbs();
+        createFallingStars();
+    </script>
+</body>
+</html>
